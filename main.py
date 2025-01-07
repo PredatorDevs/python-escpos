@@ -1,19 +1,20 @@
 from flask import Flask, request, jsonify
-
+from flask_cors import CORS  # Importar CORS
 from print_slip_cf import print_slip_cf
 from print_slip_ccf import print_slip_ccf
 from print_receipt import print_receipt
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/print/slip/cf', methods=['POST'])
 def handle_print_slip_cf():
     try:
         data = request.json
-        if not data or 'header' not in data:
+        if not data or 'invoiceHeaderData' not in data:
             return jsonify({"status": "error", "message": "El campo 'header' es obligatorio."}), 400
 
-        print_slip_cf(data['header'], data['details'])
+        print_slip_cf(data['invoiceHeaderData'], data['invoiceBodyData'])
         
         return jsonify({"status": "success", "message": "Printing success"}), 200
     except Exception as e:
@@ -23,10 +24,10 @@ def handle_print_slip_cf():
 def handle_print_slip_ccf():
     try:
         data = request.json
-        if not data or 'header' not in data:
+        if not data or 'invoiceHeaderData' not in data:
             return jsonify({"status": "error", "message": "El campo 'header' es obligatorio."}), 400
 
-        print_slip_ccf(data['header'], data['details'])
+        print_slip_ccf(data['invoiceHeaderData'], data['invoiceBodyData'])
         
         return jsonify({"status": "success", "message": "Printing success"}), 200
     except Exception as e:
