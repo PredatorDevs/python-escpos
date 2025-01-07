@@ -46,4 +46,4 @@ def handle_print_receipt():
 
 if __name__ == '__main__':
   # Ejecutar el servidor en el puerto 5000
-  app.run(host='127.0.0.1', port=5005)
+  app.run(host='127.0.0.1', port=5006)
